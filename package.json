@@ -1,4 +1,5 @@
 {
+    "name": "reflux-cloud",
     "private": true,
     "type": "module",
     "scripts": {

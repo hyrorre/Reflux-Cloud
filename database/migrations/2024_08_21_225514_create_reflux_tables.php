@@ -20,8 +20,8 @@ return new class extends Migration {
             $table->id();
             $table->string('title', 255)->nullable();
             $table->string('title2', 255)->nullable();
-            $table->string('genre', 50)->nullable();
-            $table->string('artist', 50)->nullable();
+            $table->string('genre', 255)->nullable();
+            $table->string('artist', 255)->nullable();
             $table->string('bpm', 10)->nullable();
             $table->string('iidx_id', 255)->nullable();
             $table->string('unlocktype', 20)->nullable();
@@ -30,7 +30,7 @@ return new class extends Migration {
 
         Schema::create('charts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('song_id');
+            $table->string('song_id');
             $table->integer('notecount');
             $table->string('difficulty', 3);
             $table->integer('level');
