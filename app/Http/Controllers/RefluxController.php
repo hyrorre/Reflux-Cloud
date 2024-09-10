@@ -169,19 +169,24 @@ class RefluxController extends Controller {
         return response('This API is not supported yet.', 400);
     }
 
-    public function getscore() {
+    public function getscore($name) {
         $user = Auth::user();
-        if (!$user) {
+        if (!$name && !$user) {
             return response('Not authorized.', 400);
+        }
+
+        $rival = $name ? User::where('name', '=', $name)->select('id', 'name', 'iidxid', 'infinitasid', 'scope')->first() : null;
+        if ($rival && $rival->scope !== 'public') {
+            return response('Score is private.', 400);
         }
 
         return
             response(
-                Chartstat::where('user_id', '=', $user->id)
+                Chartstat::where('user_id', '=', $name ? $rival->id : $user->id)
                     ->join('charts', 'charts.id', '=', 'chartstats.chart_id')
                     ->join('songs', 'songs.iidx_id', '=', 'charts.song_id')
                     ->select('grade', 'gradediff', 'lamp', 'miss', 'ex_score', 'playtype', 'notecount', 'difficulty', 'level', 'unlocked', 'title', 'genre', 'artist', 'iidx_id')
                     ->get()
-            )->header('Cache-Control', 'private, max-age: 86400000');
+            )->header('Cache-Control', 'private, max-age: 86400000'); // 1000 days
     }
 }

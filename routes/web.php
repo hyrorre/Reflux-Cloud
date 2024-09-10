@@ -30,3 +30,6 @@ Route::middleware([
 
     Route::get('/score', [ScoreController::class, 'index'])->name('score');
 });
+
+Route::get('/user/{name}', [ScoreController::class, 'rival'])->name('user.name');
+

@@ -17,3 +17,4 @@ Route::post('/updatesong', [RefluxController::class, 'updatesong']);
 Route::post('/unlocksong', [RefluxController::class, 'unlocksong']);
 
 Route::get('/getscore', [RefluxController::class, 'getscore'])->middleware('auth:sanctum');
+Route::get('/getscore/{name}', [RefluxController::class, 'getscore']);

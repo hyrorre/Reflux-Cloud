@@ -1,11 +1,12 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
 
-defineProps({
-  user: Object
+const props = defineProps({
+  user: Object,
+  rival: Object
 })
 
 const loading = ref(true)
@@ -21,16 +22,21 @@ const filter = ref({
 
 const sort = ref('TITLE')
 const reverse = ref(false)
+const isPrivate = ref(false)
 
 const loadChartstats = (force = false) => {
+  if (props.rival && props.rival.scope !== 'public') {
+    isPrivate.value = true
+    return
+  }
   loading.value = true
-  fetch('/api/getscore', {
+  fetch('/api/getscore' + (props.rival ? '/' + props.rival.name : ''), {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
     },
-    cache: force ? 'no-store' : 'force-cache'
+    cache: force ? 'no-cache' : 'force-cache'
   })
     .then((response) => response.json())
     .then((data) => {
@@ -81,7 +87,9 @@ const sortFn = (a, b) => {
 <template>
   <AppLayout title="Score">
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Score</h2>
+      <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        {{ props.rival ? props.rival.name + "'s" : 'My' }} Score
+      </h2>
     </template>
 
     <div class="py-12 text-gray-800 dark:text-gray-200">
@@ -134,7 +142,7 @@ const sortFn = (a, b) => {
                 {{ s + ' ' + (reverse ? '▼' : '▲') }}
               </PrimaryButton>
               <!-- prettier-ignore -->
-              <SecondaryButton v-else @click="sort = s;reverse = false">
+              <SecondaryButton v-else @click="sort = s; reverse = false">
                 {{ s }}
               </SecondaryButton>
             </span>
@@ -148,7 +156,8 @@ const sortFn = (a, b) => {
           </div>
         </div>
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
-          <p v-if="loading">Loading score data...</p>
+          <p class="p-4" v-if="isPrivate">{{ props.rival.name }}'s Score is private.</p>
+          <p class="p-4" v-else-if="loading">Loading score data...</p>
           <table v-else class="w-full text-center">
             <thead>
               <tr class="border-b-2 border-gray-300 dark:border-gray-600">
