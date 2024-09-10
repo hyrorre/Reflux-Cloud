@@ -151,7 +151,13 @@ const sortFn = (a, b) => {
         <div class="flex justify-between items-end mb-2">
           <div>Count : {{ chartstats.filter(filterFn).length }}</div>
           <div>
-            <SecondaryButton class="mr-2 hidden">Share</SecondaryButton>
+            <a
+              :href="`https://x.com/intent/tweet?text=${encodeURI(route('user.name', props.rival ? props.rival.name : props.user.name))}`"
+              target="_blank"
+              v-if="props.rival || props.user.scope === 'public'"
+            >
+              <SecondaryButton class="mr-2">Share</SecondaryButton>
+            </a>
             <SecondaryButton @click="loadChartstats(true)">Reload</SecondaryButton>
           </div>
         </div>
