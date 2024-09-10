@@ -10,6 +10,7 @@ return new class extends Migration {
      */
     public function up(): void {
         Schema::table('users', function (Blueprint $table) {
+            $table->unique(['name']);
             $table->string('iidxid')->after('name')->nullable();
             $table->string('infinitasid')->after('iidxid')->nullable();
             $table->string('apikey')->after('password')->unique();
@@ -96,6 +97,7 @@ return new class extends Migration {
      */
     public function down(): void {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropUnique(['name']);
             $table->dropColumn(['iidxid']);
             $table->dropColumn(['infinitasid']);
             $table->dropColumn(['apikey']);

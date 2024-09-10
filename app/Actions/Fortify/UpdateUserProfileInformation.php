@@ -16,13 +16,16 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation {
      */
     public function update(User $user, array $input): void {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id), 'regex:/^[0-9a-zA-Z-_]+$/u'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
-            'iidxid' => ['nullable', 'string', 'max:255'],
-            'infinitasid' => ['nullable', 'string', 'max:255'],
-            'apikey' => ['required', 'string', 'min:32', 'max:255'],
+            'iidxid' => ['nullable', 'string', 'max:32', 'regex:/^[0-9-]+$/u'],
+            'infinitasid' => ['nullable', 'string', 'max:32', 'regex:/^C-[0-9-]+$/u'],
+            'apikey' => ['required', 'string', 'min:32', 'max:255', 'regex:/^[0-9a-zA-Z-]+$/u'],
             'scope' => ['string', 'max:255'],
+        ], [
+            'name.unique' => 'This name is already used.',
+            'name.regex' => 'Please use only single-byte alphanumeric characters and underscores.',
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {

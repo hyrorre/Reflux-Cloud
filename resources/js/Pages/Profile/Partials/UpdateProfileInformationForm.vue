@@ -123,15 +123,8 @@ const generateApiKey = () => {
 
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Name" />
-                <TextInput
-                    id="name"
-                    v-model="form.name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="name"
-                />
+                <InputLabel for="name" value="ID" />
+                <TextInput id="name" v-model="form.name" type="text" class="mt-1 block w-full" required />
                 <InputError :message="form.errors.name" class="mt-2" />
             </div>
 
