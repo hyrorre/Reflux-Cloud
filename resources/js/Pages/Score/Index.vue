@@ -163,7 +163,7 @@ const sortFn = (a, b) => {
             <SecondaryButton @click="loadChartstats(true)">Reload</SecondaryButton>
           </div>
         </div>
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
+        <div class="bg-white dark:bg-gray-800 overflow-x-scroll shadow-xl sm:rounded-lg">
           <p class="p-4" v-if="isPrivate">{{ props.rival.name }}'s Score is private.</p>
           <p class="p-4" v-else-if="loading">Loading score data...</p>
           <p class="p-4" v-else-if="chartstats.length === 0">Score is not uploaded.</p>
