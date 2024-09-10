@@ -130,16 +130,11 @@ const sortFn = (a, b) => {
               v-for="s in ['TITLE', 'DIFFICULTY', 'LEVEL', 'LAMP', 'SCORERATE', 'MISS']"
               class="inline-block ml-2 mb-2"
             >
-              <PrimaryButton v-if="sort === s" @click="reverse = !reverse">{{
-                s + ' ' + (reverse ? '▼' : '▲')
-              }}</PrimaryButton>
-              <SecondaryButton
-                v-else
-                @click="
-                  sort = s
-                  reverse = false
-                "
-              >
+              <PrimaryButton v-if="sort === s" @click="reverse = !reverse">
+                {{ s + ' ' + (reverse ? '▼' : '▲') }}
+              </PrimaryButton>
+              <!-- prettier-ignore -->
+              <SecondaryButton v-else @click="sort = s;reverse = false">
                 {{ s }}
               </SecondaryButton>
             </span>
