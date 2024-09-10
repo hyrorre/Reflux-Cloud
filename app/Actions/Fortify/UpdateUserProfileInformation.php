@@ -19,8 +19,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation {
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
-            'iidxid' => ['string', 'max:255'],
-            'infinitasid' => ['string', 'max:255'],
+            'iidxid' => ['nullable', 'string', 'max:255'],
+            'infinitasid' => ['nullable', 'string', 'max:255'],
             'apikey' => ['required', 'string', 'min:32', 'max:255'],
             'scope' => ['string', 'max:255'],
         ])->validateWithBag('updateProfileInformation');
