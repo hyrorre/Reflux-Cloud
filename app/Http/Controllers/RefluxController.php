@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Chart;
 use App\Models\Chartstat;
@@ -166,5 +167,21 @@ class RefluxController extends Controller {
 
     public function unlocksong(Request $request) {
         return response('This API is not supported yet.', 400);
+    }
+
+    public function getscore() {
+        $user = Auth::user();
+        if (!$user) {
+            return response('Not authorized.', 400);
+        }
+
+        return
+            response(
+                Chartstat::where('user_id', '=', $user->id)
+                    ->join('charts', 'charts.id', '=', 'chartstats.chart_id')
+                    ->join('songs', 'songs.iidx_id', '=', 'charts.song_id')
+                    ->select('grade', 'gradediff', 'lamp', 'miss', 'ex_score', 'playtype', 'notecount', 'difficulty', 'level', 'unlocked', 'title', 'genre', 'artist', 'iidx_id')
+                    ->get()
+            )->header('Cache-Control', 'private, max-age: 86400000');
     }
 }
