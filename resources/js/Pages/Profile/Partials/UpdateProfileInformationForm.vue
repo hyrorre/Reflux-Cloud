@@ -78,8 +78,19 @@ const clearPhotoFileInput = () => {
     }
 };
 
-const generateApiKey = () => {
+const apikeyCopied = ref(false);
+const apikeyInputType = ref('password');
+
+const copyApikey = () => {
+    apikeyInputType.value = 'text';
+    navigator.clipboard.writeText(form.apikey).then(() => {
+        apikeyCopied.value = true;
+    });
+};
+
+const generateApikey = () => {
     form.apikey = crypto.randomUUID();
+    copyApikey();
 };
 </script>
 
@@ -182,9 +193,20 @@ const generateApiKey = () => {
             <!-- API Key -->
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel for="apikey" value="API Key" />
-                <TextInput id="apikey" v-model="form.apikey" type="text" class="mt-1 block w-full" required disabled />
+                <TextInput
+                    id="apikey"
+                    v-model="form.apikey"
+                    :type="apikeyInputType"
+                    class="mt-1 block w-full"
+                    required
+                    disabled
+                />
                 <InputError :message="form.errors.apikey" class="mt-2" />
-                <SecondaryButton class="mt-3" @click="generateApiKey">Regenerate</SecondaryButton>
+                <div class="flex justify-end items-center align-middle">
+                    <ActionMessage :on="apikeyCopied" class="mt-2 me-3">Copied.</ActionMessage>
+                    <SecondaryButton class="mt-2 me-2" @click="copyApikey">Copy</SecondaryButton>
+                    <SecondaryButton class="mt-2" @click="generateApikey">Regenerate</SecondaryButton>
+                </div>
             </div>
 
             <!-- Scope -->
