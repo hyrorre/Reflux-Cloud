@@ -152,7 +152,9 @@ const sortFn = (a, b) => {
           <div>Count : {{ chartstats.filter(filterFn).length }}</div>
           <div>
             <a
-              :href="`https://x.com/intent/tweet?text=${encodeURI(route('user.name', props.rival ? props.rival.name : props.user.name))}`"
+              :href="`https://x.com/intent/tweet?text=${encodeURI(
+                route('user.name', props.rival ? props.rival.name : props.user.name)
+              )}`"
               target="_blank"
               v-if="props.rival || props.user.scope === 'public'"
             >
@@ -164,6 +166,7 @@ const sortFn = (a, b) => {
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
           <p class="p-4" v-if="isPrivate">{{ props.rival.name }}'s Score is private.</p>
           <p class="p-4" v-else-if="loading">Loading score data...</p>
+          <p class="p-4" v-else-if="chartstats.length === 0">Score is not uploaded.</p>
           <table v-else class="w-full text-center">
             <thead>
               <tr class="border-b-2 border-gray-300 dark:border-gray-600">
