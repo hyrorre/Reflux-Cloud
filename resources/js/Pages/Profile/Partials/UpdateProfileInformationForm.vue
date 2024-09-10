@@ -188,7 +188,7 @@ const generateApikey = () => {
       </div>
 
       <!-- API Key -->
-      <div class="col-span-6 sm:col-span-4">
+      <div class="col-span-6 sm:col-span-4 hidden">
         <InputLabel for="apikey" value="API Key" />
         <TextInput
           id="apikey"

@@ -28,7 +28,7 @@ class User extends Authenticatable {
         'password',
         'iidxid',
         'infinitasid',
-        'apikey',
+        // 'apikey',
     ];
 
     /**
@@ -41,6 +41,7 @@ class User extends Authenticatable {
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'apikey',
     ];
 
     /**

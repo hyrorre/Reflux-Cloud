@@ -21,7 +21,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation {
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
             'iidxid' => ['nullable', 'string', 'max:32', 'regex:/^[0-9-]+$/u'],
             'infinitasid' => ['nullable', 'string', 'max:32', 'regex:/^C-[0-9-]+$/u'],
-            'apikey' => ['required', 'string', 'min:32', 'max:255', 'regex:/^[0-9a-zA-Z-]+$/u'],
+            // 'apikey' => ['required', 'string', 'min:32', 'max:255', 'regex:/^[0-9a-zA-Z-]+$/u'],
             'scope' => ['string', 'max:255'],
         ], [
             'name.unique' => 'This name is already used.',
@@ -43,7 +43,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation {
                 'email' => $input['email'],
                 'iidxid' => $input['iidxid'],
                 'infinitasid' => $input['infinitasid'],
-                'apikey' => $input['apikey'],
+                // 'apikey' => $input['apikey'],
                 'scope' => $input['scope'],
             ])->save();
         }
