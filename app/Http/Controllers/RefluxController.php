@@ -169,7 +169,7 @@ class RefluxController extends Controller {
         return response('This API is not supported yet.', 400);
     }
 
-    public function getscore($name) {
+    public function getscore($name = null) {
         $user = Auth::user();
         if (!$name && !$user) {
             return response('Not authorized.', 400);
